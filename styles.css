@@ -1,0 +1,54 @@
+/* Typing Interface Hider */
+
+body {
+  --typing-interface-hider-duration: 780ms;
+  --typing-interface-hider-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+  Pure "lights off" mode:
+  no layout collapsing, no width/height changes.
+  The note text stays exactly where it was; only Obsidian chrome fades out/in.
+*/
+
+body.typing-interface-hider-active.typing-interface-hider-hide-titlebar .titlebar,
+body.typing-interface-hider-active.typing-interface-hider-hide-ribbon .workspace-ribbon,
+body.typing-interface-hider-active.typing-interface-hider-hide-ribbon .workspace-ribbon.mod-left,
+body.typing-interface-hider-active.typing-interface-hider-hide-ribbon .workspace-ribbon.mod-right,
+body.typing-interface-hider-active.typing-interface-hider-hide-sidebars .workspace-split.mod-left-split,
+body.typing-interface-hider-active.typing-interface-hider-hide-sidebars .workspace-split.mod-right-split,
+body.typing-interface-hider-active.typing-interface-hider-hide-sidebars .workspace-sidedock-vault-profile,
+body.typing-interface-hider-active.typing-interface-hider-hide-sidebars .sidebar-toggle-button,
+body.typing-interface-hider-active.typing-interface-hider-hide-tab-headers .workspace-tabs .workspace-tab-header-container,
+body.typing-interface-hider-active.typing-interface-hider-hide-view-header .view-header,
+body.typing-interface-hider-active.typing-interface-hider-hide-view-header .metadata-container,
+body.typing-interface-hider-active.typing-interface-hider-hide-statusbar .status-bar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body .titlebar,
+body .workspace-ribbon,
+body .workspace-ribbon.mod-left,
+body .workspace-ribbon.mod-right,
+body .workspace-split.mod-left-split,
+body .workspace-split.mod-right-split,
+body .workspace-sidedock-vault-profile,
+body .sidebar-toggle-button,
+body .workspace-tabs .workspace-tab-header-container,
+body .view-header,
+body .metadata-container,
+body .status-bar {
+  transition: opacity var(--typing-interface-hider-duration) var(--typing-interface-hider-ease) !important;
+  will-change: opacity;
+}
+
+body.typing-interface-hider-active.typing-interface-hider-hide-scrollbars ::-webkit-scrollbar {
+  opacity: 0 !important;
+}
+
+body.typing-interface-hider-active .markdown-source-view.mod-cm6 .cm-scroller,
+body.typing-interface-hider-active .markdown-source-view.mod-cm6 .cm-contentContainer,
+body.typing-interface-hider-active .markdown-reading-view .markdown-preview-view {
+  background: var(--background-primary) !important;
+}
