@@ -4,6 +4,11 @@ Typing Interface Hider is an Obsidian plugin that hides selected parts of the Ob
 
 It is useful for a lightweight focus/zen typing mode without changing the note layout.
 
+
+## Screenshot
+
+![Typing Interface Hider screenshot](assets/screenshot.png)
+
 ## Features
 
 - Hide UI chrome while typing in Markdown notes.
