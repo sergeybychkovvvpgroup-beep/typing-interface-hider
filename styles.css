@@ -23,8 +23,8 @@ body.typing-interface-hider-active.typing-interface-hider-hide-tab-headers .work
 body.typing-interface-hider-active.typing-interface-hider-hide-view-header .view-header,
 body.typing-interface-hider-active.typing-interface-hider-hide-view-header .metadata-container,
 body.typing-interface-hider-active.typing-interface-hider-hide-statusbar .status-bar {
-  opacity: 0 !important;
-  pointer-events: none !important;
+  opacity: 0;
+  pointer-events: none;
 }
 
 body .titlebar,
@@ -39,16 +39,16 @@ body .workspace-tabs .workspace-tab-header-container,
 body .view-header,
 body .metadata-container,
 body .status-bar {
-  transition: opacity var(--typing-interface-hider-duration) var(--typing-interface-hider-ease) !important;
+  transition: opacity var(--typing-interface-hider-duration) var(--typing-interface-hider-ease);
   will-change: opacity;
 }
 
 body.typing-interface-hider-active.typing-interface-hider-hide-scrollbars ::-webkit-scrollbar {
-  opacity: 0 !important;
+  opacity: 0;
 }
 
 body.typing-interface-hider-active .markdown-source-view.mod-cm6 .cm-scroller,
 body.typing-interface-hider-active .markdown-source-view.mod-cm6 .cm-contentContainer,
 body.typing-interface-hider-active .markdown-reading-view .markdown-preview-view {
-  background: var(--background-primary) !important;
+  background: var(--background-primary);
 }

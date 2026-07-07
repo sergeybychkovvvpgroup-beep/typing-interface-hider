@@ -1,9 +1,9 @@
 {
   "id": "typing-interface-hider",
   "name": "Typing Interface Hider",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "minAppVersion": "1.4.0",
-  "description": "Hides Obsidian chrome while you type, then optionally restores it after idle delay or mouse movement.",
+  "description": "Hides app chrome while you type, then optionally restores it after idle delay or mouse movement.",
   "author": "Sergey Bychkov",
   "isDesktopOnly": false
 }
