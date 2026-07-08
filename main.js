@@ -210,7 +210,7 @@ class TypingInterfaceHiderSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Return UI automatically after idle')
-      .setDesc('When disabled, the interface stays hidden until mouse movement, click, wheel, window blur, or the “Show interface now” command.')
+      .setDesc('Controls automatic restore after typing/keyboard activity. Scroll hiding has its own reading-friendly behavior and stays hidden until mouse movement, click, window blur, or the “Show interface now” command.')
       .addToggle((toggle) => toggle
         .setValue(this.plugin.settings.restoreAfterIdle)
         .onChange(async (value) => {
@@ -222,7 +222,7 @@ class TypingInterfaceHiderSettingTab extends PluginSettingTab {
 
     const idleDelaySetting = new Setting(containerEl)
       .setName('Idle return delay, ms')
-      .setDesc('How long to wait after the last key before restoring the interface. Used only when automatic idle return is enabled. Default: 1000.')
+      .setDesc('How long to wait after the last key before restoring the interface. Used only for typing/keyboard activity when automatic idle return is enabled. Default: 1000.')
       .addText((text) => {
         text
           .setPlaceholder('1000')
@@ -275,7 +275,7 @@ class TypingInterfaceHiderSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Hide while scrolling')
-      .setDesc('If enabled, scrolling a Markdown note hides the interface too, including in reading view.')
+      .setDesc('If enabled, scrolling a Markdown note hides the interface too, including in reading view. After scrolling, the interface stays hidden until mouse movement, click, window blur, or the “Show interface now” command.')
       .addToggle((toggle) => toggle
         .setValue(this.plugin.settings.hideOnScroll)
         .onChange(async (value) => {

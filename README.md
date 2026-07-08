@@ -35,12 +35,12 @@ Settings:
 
 ## Settings
 
-- **Return UI automatically after idle**: when enabled, the UI returns after the configured idle delay. When disabled, the UI returns only on mouse/pointer activity, scroll, window blur, or the command below.
-- **Idle return delay, ms**: delay before restoring the UI after typing stops.
+- **Return UI automatically after idle**: controls automatic restore after typing/keyboard activity. Scroll hiding is separate and keeps the UI hidden for reading until mouse movement, click, window blur, or the command below.
+- **Idle return delay, ms**: delay before restoring the UI after typing/keyboard activity stops.
 - **Fade duration, ms**: fade-out/fade-in animation duration.
 - **Only in Markdown notes**: avoid hiding the UI while typing in search, settings, plugin dialogs, and other Obsidian UI fields.
 - **Hide on navigation keys too**: keep the UI hidden when using arrow/Home/End/Page keys in the editor.
-- **Hide while scrolling**: hide the UI when scrolling a Markdown note, including in reading view. After scroll hiding, the UI stays hidden until mouse movement, click, or window blur.
+- **Hide while scrolling**: hide the UI when scrolling a Markdown note, including in reading view. After scroll hiding, the UI stays hidden until mouse movement, click, window blur, or the command below.
 
 ## Commands
 
