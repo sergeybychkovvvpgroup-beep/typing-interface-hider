@@ -5,6 +5,7 @@ const { Plugin, PluginSettingTab, Setting, Notice } = require('obsidian');
 const DEFAULT_SETTINGS = {
   restoreAfterIdle: true,
   idleDelayMs: 1000,
+  mouseRestoreDistancePx: 24,
   fadeDurationMs: 780,
   onlyInMarkdownEditor: true,
   hideOnAnyEditorKey: true,
@@ -23,6 +24,7 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
     this.hideTimer = null;
     this.hidden = false;
+    this.mouseRestoreStart = null;
 
     this.addSettingTab(new TypingInterfaceHiderSettingTab(this.app, this));
     this.applyOptionClasses();
@@ -36,8 +38,8 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     this.registerDomEvent(document, 'scroll', (event) => this.onScrollActivity(event), true);
     this.registerDomEvent(document, 'touchmove', (event) => this.onScrollActivity(event), true);
 
-    // Any non-scroll mouse/touch action brings Obsidian UI back immediately.
-    this.registerDomEvent(document, 'mousemove', () => this.showInterface(), true);
+    // Any intentional non-scroll mouse/touch action brings Obsidian UI back.
+    this.registerDomEvent(document, 'mousemove', (event) => this.onMouseMove(event), true);
     this.registerDomEvent(document, 'pointerdown', () => this.showInterface(), true);
     this.registerDomEvent(window, 'blur', () => this.showInterface());
 
@@ -77,6 +79,28 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     }
     if (!this.shouldReactToEvent(event)) return;
     this.hideInterface({ restoreAfterIdle: false });
+  }
+
+  onMouseMove(event) {
+    if (!this.hidden) return;
+
+    const threshold = Math.max(0, Number(this.settings.mouseRestoreDistancePx) || 0);
+    if (threshold === 0) {
+      this.showInterface();
+      return;
+    }
+
+    const position = { x: event.clientX, y: event.clientY };
+    if (!this.mouseRestoreStart) {
+      this.mouseRestoreStart = position;
+      return;
+    }
+
+    const dx = position.x - this.mouseRestoreStart.x;
+    const dy = position.y - this.mouseRestoreStart.y;
+    if (Math.hypot(dx, dy) >= threshold) {
+      this.showInterface();
+    }
   }
 
   shouldReactToEvent(event) {
@@ -121,6 +145,7 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     const restoreAfterIdle = options.restoreAfterIdle !== false;
     this.applyOptionClasses();
     this.applyTimingVariables();
+    this.mouseRestoreStart = null;
     if (!this.hidden) {
       document.body.classList.add('typing-interface-hider-active');
       this.hidden = true;
@@ -134,6 +159,7 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
 
   showInterface() {
     this.clearTimer();
+    this.mouseRestoreStart = null;
     if (this.hidden) {
       document.body.classList.remove('typing-interface-hider-active');
       this.hidden = false;
@@ -238,6 +264,20 @@ class TypingInterfaceHiderSettingTab extends PluginSettingTab {
       });
 
     idleDelaySetting.settingEl.classList.toggle('is-disabled', !this.plugin.settings.restoreAfterIdle);
+
+    new Setting(containerEl)
+      .setName('Mouse movement needed to restore, px')
+      .setDesc('How far the mouse must move before the hidden interface returns. Increase this to ignore accidental small bumps while scrolling. Set 0 for the old immediate behavior. Default: 24.')
+      .addText((text) => text
+        .setPlaceholder('24')
+        .setValue(String(this.plugin.settings.mouseRestoreDistancePx))
+        .onChange(async (value) => {
+          const parsed = Number.parseInt(value, 10);
+          if (!Number.isNaN(parsed)) {
+            this.plugin.settings.mouseRestoreDistancePx = Math.max(0, parsed);
+            await this.plugin.saveSettings();
+          }
+        }));
 
     new Setting(containerEl)
       .setName('Fade duration, ms')
