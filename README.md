@@ -1,6 +1,6 @@
 # Typing Interface Hider
 
-Typing Interface Hider is an Obsidian plugin that hides selected parts of the Obsidian interface while you type, then brings them back when you stop typing or move the mouse.
+Typing Interface Hider is an Obsidian plugin that hides selected parts of the Obsidian interface while you type or optionally while you scroll, then brings them back when you stop typing/scrolling or move the mouse.
 
 It is useful for a lightweight focus/zen typing mode without changing the note layout.
 
@@ -18,7 +18,8 @@ Settings:
 ## Features
 
 - Hide UI chrome while typing in Markdown notes.
-- Restore the UI on mouse movement, click, scroll, or window blur.
+- Optionally hide UI chrome while scrolling Markdown notes, including reading view.
+- Restore the UI on mouse movement, click, scroll (when scroll hiding is disabled), or window blur.
 - Optional automatic restore after an idle delay.
 - Optional mouse-only restore mode: disable the idle timer and keep the UI hidden until you move the mouse.
 - Configurable fade duration.
@@ -38,6 +39,7 @@ Settings:
 - **Fade duration, ms**: fade-out/fade-in animation duration.
 - **Only in Markdown notes**: avoid hiding the UI while typing in search, settings, plugin dialogs, and other Obsidian UI fields.
 - **Hide on navigation keys too**: keep the UI hidden when using arrow/Home/End/Page keys in the editor.
+- **Hide while scrolling**: hide the UI when scrolling a Markdown note, including in reading view.
 
 ## Commands
 

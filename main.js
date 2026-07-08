@@ -8,6 +8,7 @@ const DEFAULT_SETTINGS = {
   fadeDurationMs: 780,
   onlyInMarkdownEditor: true,
   hideOnAnyEditorKey: true,
+  hideOnScroll: false,
   hideSidebars: true,
   hideRibbon: true,
   hideTabHeaders: true,
@@ -31,11 +32,13 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     this.registerDomEvent(document, 'input', (event) => this.onTextInput(event), true);
     this.registerDomEvent(document, 'compositionstart', (event) => this.onTextInput(event), true);
     this.registerDomEvent(document, 'paste', (event) => this.onTextInput(event), true);
+    this.registerDomEvent(document, 'wheel', (event) => this.onScrollActivity(event), true);
+    this.registerDomEvent(document, 'scroll', (event) => this.onScrollActivity(event), true);
+    this.registerDomEvent(document, 'touchmove', (event) => this.onScrollActivity(event), true);
 
-    // Any mouse/touch action brings Obsidian UI back immediately.
+    // Any non-scroll mouse/touch action brings Obsidian UI back immediately.
     this.registerDomEvent(document, 'mousemove', () => this.showInterface(), true);
     this.registerDomEvent(document, 'pointerdown', () => this.showInterface(), true);
-    this.registerDomEvent(document, 'wheel', () => this.showInterface(), true);
     this.registerDomEvent(window, 'blur', () => this.showInterface());
 
     this.addCommand({
@@ -63,6 +66,15 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
   }
 
   onTextInput(event) {
+    if (!this.shouldReactToEvent(event)) return;
+    this.hideInterface();
+  }
+
+  onScrollActivity(event) {
+    if (!this.settings.hideOnScroll) {
+      this.showInterface();
+      return;
+    }
     if (!this.shouldReactToEvent(event)) return;
     this.hideInterface();
   }
@@ -253,6 +265,16 @@ class TypingInterfaceHiderSettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.hideOnAnyEditorKey)
         .onChange(async (value) => {
           this.plugin.settings.hideOnAnyEditorKey = value;
+          await this.plugin.saveSettings();
+        }));
+
+    new Setting(containerEl)
+      .setName('Hide while scrolling')
+      .setDesc('If enabled, scrolling a Markdown note hides the interface too, including in reading view.')
+      .addToggle((toggle) => toggle
+        .setValue(this.plugin.settings.hideOnScroll)
+        .onChange(async (value) => {
+          this.plugin.settings.hideOnScroll = value;
           await this.plugin.saveSettings();
         }));
 
