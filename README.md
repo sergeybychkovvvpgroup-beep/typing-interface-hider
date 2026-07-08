@@ -19,6 +19,7 @@ Settings:
 
 - Hide UI chrome while typing in Markdown notes.
 - Optionally hide UI chrome while scrolling Markdown notes, including reading view.
+- When hidden by scrolling, keep the UI hidden until mouse movement, click, or window blur.
 - Restore the UI on mouse movement, click, scroll (when scroll hiding is disabled), or window blur.
 - Optional automatic restore after an idle delay.
 - Optional mouse-only restore mode: disable the idle timer and keep the UI hidden until you move the mouse.
@@ -39,7 +40,7 @@ Settings:
 - **Fade duration, ms**: fade-out/fade-in animation duration.
 - **Only in Markdown notes**: avoid hiding the UI while typing in search, settings, plugin dialogs, and other Obsidian UI fields.
 - **Hide on navigation keys too**: keep the UI hidden when using arrow/Home/End/Page keys in the editor.
-- **Hide while scrolling**: hide the UI when scrolling a Markdown note, including in reading view.
+- **Hide while scrolling**: hide the UI when scrolling a Markdown note, including in reading view. After scroll hiding, the UI stays hidden until mouse movement, click, or window blur.
 
 ## Commands
 

@@ -76,7 +76,7 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
       return;
     }
     if (!this.shouldReactToEvent(event)) return;
-    this.hideInterface();
+    this.hideInterface({ restoreAfterIdle: false });
   }
 
   shouldReactToEvent(event) {
@@ -117,14 +117,19 @@ module.exports = class TypingInterfaceHiderPlugin extends Plugin {
     return !!activeView;
   }
 
-  hideInterface() {
+  hideInterface(options = {}) {
+    const restoreAfterIdle = options.restoreAfterIdle !== false;
     this.applyOptionClasses();
     this.applyTimingVariables();
     if (!this.hidden) {
       document.body.classList.add('typing-interface-hider-active');
       this.hidden = true;
     }
-    this.restartTimer();
+    if (restoreAfterIdle) {
+      this.restartTimer();
+    } else {
+      this.clearTimer();
+    }
   }
 
   showInterface() {
